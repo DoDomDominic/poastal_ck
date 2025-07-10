@@ -24,9 +24,13 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 CORS(app)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def poastal():
-    email = request.args.get('email')
+    if request.method == 'POST':
+        data = request.get_json(silent=True) or {}
+        email = data.get('email') or request.form.get('email')
+    else:
+        email = request.args.get('email')
     if email:
         twitter_result = twitter_email(email)
         snapchat_result = snapchat_email(email)
@@ -86,7 +90,7 @@ def poastal():
             }
         })
     else:
-        return 'No email address provided.'
+        return jsonify({'error': 'No email address provided.'}), 400
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True)
