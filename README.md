@@ -26,6 +26,15 @@ Open `index.html` in the root directory to use the UI.
 
 Enter an email address and see the results.
 
+### API usage
+
+You can query the service using a `POST` request as well:
+
+```
+curl -X POST http://localhost:8080/ -H "Content-Type: application/json" -d '{"email": "example@gmail.com"}'
+```
+
+
 Test with `example@gmail.com`.
 
 There's a new GitHub module. 
